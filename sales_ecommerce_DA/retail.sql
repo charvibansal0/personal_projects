@@ -1,45 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="retail.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="3807"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="rfm_raw" custom_title="0" dock_id="1" table="4,7:mainrfm_raw"/><dock_state state="000000ff00000000fd00000001000000020000015c0000030efc0100000001fb000000160064006f0063006b00420072006f007700730065003101000000000000015c0000012d00ffffff0000015c0000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="clean_orders" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="54"/><column index="2" value="67"/><column index="3" value="280"/><column index="4" value="56"/><column index="5" value="132"/><column index="6" value="46"/><column index="7" value="75"/><column index="8" value="117"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="orders" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort><column index="3" mode="0"/></sort><column_widths><column index="1" value="62"/><column index="2" value="67"/><column index="3" value="280"/><column index="4" value="56"/><column index="5" value="132"/><column index="6" value="46"/><column index="7" value="75"/><column index="8" value="117"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="rfm_raw" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort><column index="3" mode="1"/></sort><column_widths><column index="1" value="75"/><column index="2" value="85"/><column index="3" value="64"/><column index="4" value="93"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">CREATE TABLE orders (
-
   Invoice     TEXT,
-
   StockCode     TEXT,
-
   Description   TEXT,
-
   Quantity      INTEGER,
-
   InvoiceDate   TEXT,
-
   Price         REAL,
-
   CustomerID    TEXT,
-
   Country       TEXT
-
 );
-
-
-
 SELECT
-
   SUM(CASE WHEN CustomerID IS NULL THEN 1 ELSE 0 END) AS missing_customers,
-
   SUM(CASE WHEN Description IS NULL THEN 1 ELSE 0 END) AS missing_desc,
-
   SUM(CASE WHEN Price &amp;lt;= 0 THEN 1 ELSE 0 END) AS bad_prices,
-
   SUM(CASE WHEN Quantity &amp;lt;= 0 THEN 1 ELSE 0 END) AS returns_or_errors
-
 FROM orders;
 
-
-
 CREATE VIEW clean_orders AS SELECT * FROM orders
-
 WHERE Quantity &gt; 0
-
 AND Price &gt; 0
-
 AND CustomerID IS NOT NULL
 
 AND Invoice NOT LIKE 'C%';

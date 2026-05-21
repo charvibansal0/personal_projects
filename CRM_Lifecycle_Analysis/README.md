@@ -47,9 +47,9 @@ crm-lifecycle-analysis/
 │   └── orders.csv              — full order history
 │
 ├── sql/
-│   ├── 01_setup.sql            — create tables, load data
-│   ├── 02_views.sql            — 5 reusable views (core of the analysis)
-│   └── 03_analysis.sql         — 10 analysis queries built on views
+│   ├── 01_setup                — create tables, load data
+│   ├── 02_views                — 5 reusable views (core of the analysis)
+│   └── 03_analysis             — 10 analysis queries built on views
 │
 ├── outputs/
 │   └── findings.md             — key numbers, segment tables, recommendations

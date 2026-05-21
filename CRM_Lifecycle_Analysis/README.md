@@ -143,7 +143,7 @@ At an 8% win-back response rate: **Rs ~19,900 projected recovery**
 
 ## How to Run
 
-**Requirements:** MySQL 8.0+ and MySQL Workbench (free at dev.mysql.com)
+**Requirements:** MySQL 8.0+ and MySQL Workbench
 
 ```sql
 -- 1. Enable local CSV import (run once)
@@ -175,10 +175,3 @@ Update the `/path/to/` in `01_setup.sql` to your local data folder before runnin
 - **NULLIF** — safe division guard in drop-off calculations
 
 ---
-
-## Further Work
-
-- Connect to a live database and automate weekly segment refresh
-- Build a Power BI / Tableau dashboard on top of the views
-- Add RFM scoring layer on top of `customer_summary` view
-- A/B test the campaign mechanics and measure actual vs projected response rates

@@ -97,47 +97,19 @@ success metric — structured the way a CRM team would actually brief execution.
 
 ---
 
-## Key Findings
+How to Run
+Requirements: MySQL 8.0+ and MySQL Workbench (free at dev.mysql.com)
+```sql
+-- 1. Enable local CSV import (run once)
+SET GLOBAL local_infile = 1;
 
-### Revenue Concentration
-| Segment | Customers | % of Base | Revenue | % of Total |
-|---|---|---|---|---|
-| active | 700 | 35% | Rs 22,54,138 | 66.2% |
-| at_risk | 500 | 25% | Rs 6,74,151 | 19.8% |
-| churned | 400 | 20% | Rs 2,48,509 | 7.3% |
-| new | 400 | 20% | Rs 2,48,036 | 7.3% |
+-- 2. Run setup
+sorce crm.sql
+-- 3. Create views
 
-**Active customers are 35% of the base but generate 66% of revenue.**
-Revenue per active customer is 5.2× that of new or churned customers.
-
-### Churn Risk
-- 500 at-risk customers have gone silent for 25–50 days
-- Their average lifetime value is Rs 1,348 each → Rs 6.7L at immediate risk
-- Top 20 at-risk customers by LTV are the highest-urgency reactivation targets
-
-### Win-Back Opportunity
-| City | Churned Customers | Avg LTV | Recoverable Revenue |
-|---|---|---|---|
-| Bangalore | 209 | Rs 618 | Rs 1,29,212 |
-| Hyderabad | 191 | Rs 625 | Rs 1,19,297 |
-
-At an 8% win-back response rate: **Rs ~19,900 projected recovery**
-
-### Campaign Uplift Model
-| Segment | Audience | Response Rate | Projected Recovery |
-|---|---|---|---|
-| active | 700 | 55% | Rs 2,21,375 |
-| at_risk | 500 | 22% | Rs 56,100 |
-| new | 400 | 35% | Rs 63,000 |
-| churned | 400 | 8% | Rs 12,480 |
-
-### Campaign Brief
-| Segment | Message | Mechanic | Success Metric |
-|---|---|---|---|
-| new | Onboarding nudge — complete your first repeat order | Push notification D+3 | D+7 second-order rate |
-| active | Habit deepening — try a new category this week | Weekly email | Cross-category purchase rate |
-| at_risk | Re-engagement — personalised offer | SMS + 10% voucher, 5-day expiry | Reactivation rate within 14 days |
-| churned | Win-back — here's what changed | Email sequence: D0, D3, D7 | Win-back rate + recovered revenue |
+-- 4. Run analysis
+```
+Update the `/path/to/` in `crm.sql` to your local data folder before running.
 
 ---
 

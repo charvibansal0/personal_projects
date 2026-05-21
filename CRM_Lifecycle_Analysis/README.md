@@ -104,7 +104,8 @@ Requirements: MySQL 8.0+ and MySQL Workbench (free at dev.mysql.com)
 SET GLOBAL local_infile = 1;
 
 -- 2. Run setup
-sorce crm.sql
+source crm.sql
+
 -- 3. Create views
 
 -- 4. Run analysis

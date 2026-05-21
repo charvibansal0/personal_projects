@@ -141,29 +141,6 @@ At an 8% win-back response rate: **Rs ~19,900 projected recovery**
 
 ---
 
-## How to Run
-
-**Requirements:** MySQL 8.0+ and MySQL Workbench
-
-```sql
--- 1. Enable local CSV import (run once)
-SET GLOBAL local_infile = 1;
-
--- 2. Run setup
-source sql/01_setup.sql
-
--- 3. Create views
-source sql/02_views.sql
-
--- 4. Run analysis
-source sql/03_analysis.sql
-```
-
-Or open each file in MySQL Workbench and run sequentially.
-Update the `/path/to/` in `01_setup.sql` to your local data folder before running.
-
----
-
 ## SQL Concepts Used
 
 - **Window functions** — `COUNT(*) OVER()`, `SUM() OVER(PARTITION BY ...)` for % calculations

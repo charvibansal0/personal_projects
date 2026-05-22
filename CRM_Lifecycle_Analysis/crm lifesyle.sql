@@ -171,3 +171,60 @@ SELECT
 FROM category_orders
 GROUP BY lifecycle_segment, month
 ORDER BY lifecycle_segment, month;
+
+# QUERY 7: At-risk priority list
+SELECT customer_id,
+       city,
+       age_band,
+       total_orders,
+       lifetime_value,
+       avg_order_value,
+       days_since_last_order
+FROM at_risk_customers
+ORDER BY lifetime_value DESC
+LIMIT 20;
+
+# QUERY 8: Win-back opportunity sizing
+SELECT city,
+       COUNT(customer_id) AS churned_customers,
+       ROUND(AVG(lifetime_value), 0) AS avg_ltv,
+       ROUND(SUM(lifetime_value), 0) AS total_recoverable_revenue
+FROM churned_customers
+GROUP BY city;
+
+#  QUERY 9: Campaign targeting table
+SELECT lifecycle_segment,
+       customer_count AS audience_size,
+       CASE lifecycle_segment
+           WHEN 'new'     THEN 'Onboarding nudge — complete your first repeat order'
+           WHEN 'active'  THEN 'Habit deepening — try a new category this week'
+           WHEN 'at_risk' THEN 'Re-engagement — we miss you + personalised offer'
+           WHEN 'churned' THEN 'Win-back — here is what changed since you left'
+	   END AS campaign_message,
+       CASE lifecycle_segment
+           WHEN 'new'     THEN 'Push notification D+3 after first order'
+           WHEN 'active'  THEN 'Weekly email with category recommendation'
+           WHEN 'at_risk' THEN 'SMS + 10% discount voucher, expires in 5 days'
+           WHEN 'churned' THEN 'Email sequence: D0 story, D3 offer, D7 urgency'
+	   END AS mechanic,
+       CASE lifecycle_segment
+           WHEN 'new'     THEN 'D+7 second-order rate'
+           WHEN 'active'  THEN 'Cross-category purchase rate'
+           WHEN 'at_risk' THEN 'Reactivation rate within 14 days'
+           WHEN 'churned' THEN 'Win-back rate + recovered revenue'
+       END AS success_metric
+FROM segment_stats;
+
+# QUERY 10: Revenue uplift projection
+WITH response_rates AS ( SELECT 'new' AS lifecycle_segment, 0.35 AS rate UNION ALL
+                         SELECT 'active',  0.55 UNION ALL
+						 SELECT 'at_risk', 0.22 UNION ALL
+						 SELECT 'churned', 0.08 )
+SELECT s.lifecycle_segment,
+       s.customer_count AS audience,
+       ROUND(s.customer_count * r.rate, 0) AS expected_responders,
+       s.avg_order_value,
+       ROUND(s.customer_count * r.rate * s.avg_order_value, 0) AS projected_recovery
+FROM segment_stats s
+JOIN response_rates r ON s.lifecycle_segment = r.lifecycle_segment
+ORDER BY projected_recovery DESC;
